@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Users, 
-  FileText, 
   Settings, 
   BarChart3, 
   Upload, 
@@ -9,9 +8,7 @@ import {
   AlertCircle,
   User,
   MessageSquare,
-  Calendar,
   BookOpen,
-  Brain,
   Shield,
   Database,
   Download,
@@ -25,7 +22,6 @@ const API_BASE_URL = typeof window !== 'undefined' && window.location.hostname =
 
 const EBDSystem = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [loading, setLoading] = useState(false);
   const [setupStatus, setSetupStatus] = useState(false);
   
   // Estados para dados
@@ -39,7 +35,6 @@ const EBDSystem = () => {
     por_categoria: {}
   });
   
-  const [membros, setMembros] = useState([]);
   const [perguntas, setPerguntas] = useState({});
 
   // Carrega dados iniciais
@@ -52,7 +47,6 @@ const EBDSystem = () => {
   const checkSetupStatus = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/perguntas`);
-      const data = await response.json();
       setSetupStatus(response.ok);
     } catch (error) {
       console.error('Erro ao verificar setup:', error);
@@ -81,18 +75,6 @@ const EBDSystem = () => {
       }
     } catch (error) {
       console.error('Erro ao carregar estatísticas:', error);
-    }
-  };
-
-  const loadMembros = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/membros`);
-      const data = await response.json();
-      if (response.ok) {
-        setMembros(data.membros);
-      }
-    } catch (error) {
-      console.error('Erro ao carregar membros:', error);
     }
   };
 
@@ -639,7 +621,6 @@ const EBDSystem = () => {
   // Componente Upload de Planilha
   const FileUpload = () => {
     const [uploading, setUploading] = useState(false);
-    const [uploadResult, setUploadResult] = useState(null);
     const [message, setMessage] = useState({ type: '', text: '' });
 
     const handleFileUpload = async (e) => {
@@ -647,14 +628,9 @@ const EBDSystem = () => {
       if (!file) return;
 
       setUploading(true);
-      setUploadResult(null);
       setMessage({ type: '', text: '' });
 
       try {
-        // Aqui você processaria o arquivo e enviaria os dados
-        const formData = new FormData();
-        formData.append('arquivo', file);
-
         // Simula processamento por agora
         setMessage({ type: 'info', text: 'Processamento de planilha será implementado em breve' });
         
